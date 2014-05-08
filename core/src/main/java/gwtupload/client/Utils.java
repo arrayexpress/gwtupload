@@ -36,35 +36,20 @@ public final class Utils {
     if (doc == null) {
       return null;
     }
-    return getXmlNodeValue(doc.getElementsByTagName(tag), tag, idx);
+    return getXmlNodeValue(doc.getElementsByTagName(tag), idx);
   }
 
-  public static String getXmlNodeValue(NodeList list, String tagName, int idx) {
-    if (list == null || list.getLength() <= idx) {
-      return null;
-    }
-    Node node = list.item(idx);
-    if (node.getNodeType() != Node.ELEMENT_NODE) {
-      return null;
-    }
-    String ret = "";
-    NodeList textNodes = node.getChildNodes();
-    for (int i = 0; i < textNodes.getLength(); i++) {
-      Node n = textNodes.item(i);
-      if (n.getNodeType() == Node.TEXT_NODE && n.getNodeValue().replaceAll("[ \\n\\t\\r]", "").length() > 0) {
-        ret += n.getNodeValue();
-      } else if (n.getNodeType() == Node.CDATA_SECTION_NODE) {
-        ret += n.getNodeValue();
+  public static String getXmlNodeValue(NodeList list, int idx) {
+      if (list == null || list.getLength() <= idx) {
+          return null;
       }
-		return getXmlNodeValue(list.item(0));
-    }
-    return ret.length() == 0 ? null : ret.replaceAll("^\\s+", "").replaceAll("\\s+$", "");
+      return getXmlNodeValue(list.item(idx));
   }
 
-    public static String getXmlNodeValue(Node node) {
-    	if (node.getNodeType() != Node.ELEMENT_NODE) {
-    		return null;
-    	}
+  public static String getXmlNodeValue(Node node) {
+      if (node == null || node.getNodeType() != Node.ELEMENT_NODE) {
+          return null;
+      }
     	String ret = "";
     	NodeList textNodes = node.getChildNodes();
     	for (int i = 0; i < textNodes.getLength(); i++) {
